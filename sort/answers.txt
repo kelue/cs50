@@ -1,0 +1,11 @@
+sort1 uses: bubble sort
+
+How do you know?: The time complexity for the random and reversed input are very high compared to the sorted input. Since we know that buuble sort terminates after the first lap if the input is sorted, this makes it likely that this algorithm uses bubble sort.
+
+sort2 uses: merge sort
+
+How do you know?: Here the time complexity for all types of input are very similiar and far shorter than the rest. Since merge sort has a theta time complexity and is the fastest of the three I'm led to believe that this is the algorithm that implements it.
+
+sort3 uses: selection sort
+
+How do you know?: This sorting algorithm shows a similiar time for all input and isn't as fast as sort2. Since selection sort has to go through all elements even when they are sorted to verify that's the case, its likely that this implements that algorithm.

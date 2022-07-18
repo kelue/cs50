@@ -1,0 +1,8 @@
+ask the user for integer input ranging from 1 to 8 inclusive
+if the user does not insert valid input, ask again until valid input is inserted
+Initialize nnumber of spaces and hashes for the first row from input value
+loop through the height
+for each row, print number of spaces and hashes for that row
+print a new line for the next row
+adjust the values for number of spaces and height for next row then go to 5
+when height is reached, terminate program
