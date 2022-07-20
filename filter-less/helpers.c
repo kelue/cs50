@@ -15,7 +15,11 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 
     int cal(RGBTRIPLE image)
     {
-        int red = image.
+        int red = image.rgbtRed;
+        int blue = image.rgbtBlue;
+        int green = image.rgbtGreen;
+
+        int result = round((red + blue + green))
     }
 }
 
