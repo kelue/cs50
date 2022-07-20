@@ -9,11 +9,14 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0, end = width -1; j < end; j++)
         {
-            cal()
+            cal(image[i][j]);
         }
     }
 
-
+    int cal(RGBTRIPLE image)
+    {
+        int red = image.
+    }
 }
 
 // Convert image to sepia
