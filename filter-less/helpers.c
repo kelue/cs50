@@ -5,15 +5,20 @@
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
     for (int i = 0, hend = height - 1; i < hend; i++)
+    //for each row
     {
         for (int j = 0, wend = width - 1; j < wend; j++)
+        //for each column in the row
         {
+            //extract the three channesl from the pixel in row[i] column[j]
             int red = image[i][j].rgbtRed;
             int blue = image[i][j].rgbtBlue;
             int green = image[i][j].rgbtGreen;
 
+            //caluculate the average of the channel values
             int result = round((red + blue + green)/3.0);
 
+            //asssign the avarage to all values to create a greyscale effect.
             image[i][j].rgbtRed = result;
             image[i][j].rgbtBlue = result;
             image[i][j].rgbtGreen = result;
