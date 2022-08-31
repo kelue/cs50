@@ -1,0 +1,84 @@
+-- Keep a log of any SQL queries you execute as you solve the mystery.
+--to make it more readable I will use "//" as additional comment indicator for comments showing thought process
+--
+-- .tables
+--//helps me get a sense of the data available to me and to decide where I may start the investigation
+--
+-- .schema
+-- //I also wanted to know hat the table structures were like. Especially for association tables.
+--
+-- SELECT COUNT(*) FROM crime_scene_reports;
+-- // I wanted to get a sense of how many records I had, if it was a large starting point.
+--
+-- SELECT * FROM crime_scene_reports WHERE day = 28 AND street LIKE "%Humphrey%";
+--//collect all the information about crime scene reports on the D day, there were three witness. Aim to check the interview and bakery security logs next
+--
+--SELECT * FROM interviews WHERE month = 7 AND day = 28 AND transcript LIKE "%bakery%";
+--//view the transcripts from interviews that mentioned a bakery specifically
+--//the thief drove away from the parking lot, he was also seen withdrawing money from the atm on the norning of the same day.
+--// he made a call to the accomplice after the theft and the accomplice was to buy a plane ticket for a flight on the following day which is the 29th.
+--// first I'll check the bakery security log to see what I find about the thief when he drove away.
+--
+--SELECT * FROM bakery_security_logs WHERE day = 28 AND month = 7 AND hour = 10;
+--// since we know from the interview that the theft occured around 10am, and that the car left "within 10 minutes" I checked
+--//to see the cars that left the park within that time frame. There were 9 plate numbers that left at the time. I will check
+--//each of these plate numbers to generate of suspect list from their owners.
+--
+--SELECT license_plate FROM bakery_security_logs WHERE day = 28 AND month = 7 AND hour = 10 AND minute <26 AND  activity = "exit"
+--//sub query checking for cars that left the bakery within 10 minutes
+--
+--SELECT caller FROM phone_calls WHERE day = 28 AND month = 7 AND duration < 60;
+--//sub query checking the calls made on the day that lasted less than a minute
+--
+--SELECT name, phone_number, license_plate FROM people
+--WHERE phone_number IN
+--      (SELECT caller FROM phone_calls WHERE day = 28 AND month = 7 AND duration < 60)
+--      AND license_plate IN
+--      (SELECT license_plate FROM bakery_security_logs WHERE day = 28 AND month = 7 AND hour = 10 AND activity = "exit");
+--//I get the details of everyone whose left the bakery within the 10 mins of the crime and who made a call on that same day as the theft that lasted less than a minute. This is my initial list of suspects
+
+--SELECT people.name, people.phone_number, people.license_plate FROM people
+--      JOIN bank_accounts ON people.id=bank_accounts.person_id
+--      WHERE bank_accounts.account_number IN
+--          (SELECT account_number FROM atm_transactions
+--           WHERE day = 28 AND month = 7 AND atm_location LIKE "%Leggett%" AND transaction_type LIKE "withdraw");
+--//I also get the details of everyone who withdrew on the morning of the theft.
+--
+
+-- SELECT people.name, people.phone_number, people.license_plate FROM people
+--      JOIN bank_accounts ON people.id=bank_accounts.person_id
+--      WHERE bank_accounts.account_number IN
+--          (SELECT account_number FROM atm_transactions
+--           WHERE day = 28 AND month = 7 AND atm_location LIKE "%Leggett%" AND transaction_type LIKE "withdraw")
+--           AND people.phone_number IN
+--             (SELECT caller FROM phone_calls WHERE day = 28 AND month = 7 AND duration < 60)
+--             AND people.license_plate IN
+--             (SELECT license_plate FROM bakery_security_logs WHERE day = 28 AND month = 7 AND hour = 10 AND minute < 26 AND activity = "exit");
+-- I conmbine the last two queries to produce a final list of two main suspects
+--
+-- SELECT people.name, people.phone_number, people.license_plate FROM people
+--     JOIN phone_calls ON people.phone_number=phone_calls.receiver
+--     WHERE phone_calls.caller IN
+--         (SELECT people.phone_number FROM people
+--              JOIN bank_accounts ON people.id=bank_accounts.person_id
+--                 WHERE bank_accounts.account_number IN
+--                     (SELECT account_number FROM atm_transactions
+--                     WHERE day = 28 AND month = 7 AND atm_location LIKE "%Leggett%" AND transaction_type LIKE "withdraw")
+--                     AND people.phone_number IN
+--                     (SELECT caller FROM phone_calls WHERE day = 28 AND month = 7 AND duration < 60)
+--                     AND people.license_plate IN
+--                     (SELECT license_plate FROM bakery_security_logs WHERE day = 28 AND month = 7 AND hour = 10 AND minute < 26 AND activity = "exit")) AND phone_calls.day=28 AND month = 7 AND duration < 60;
+--//I use the query to retrive the name of the potential accomplices of the main suspects
+--
+--//I proceeded to check the flights that left the city on the next day
+--SELECT * FROM flights WHERE day=29 AND  month=7 ORDER BY hour;
+--
+--//the earliest flight left at 8.20, I use the id to retrieve the name of everyone who was on the flight
+--
+-- SELECT people.name FROM people
+--     JOIN passengers ON people.passport_number=passengers.passport_number
+--     WHERE passengers.flight_id=36;
+--//After comparing the list on passengers, I expected to find the name of an accomplice on the passenger list since they were the one who bought the ticket but the only person on the passenger list was a thief on my suspect list so I went with that
+--
+--SELECT * FROM airports WHERE id=4;
+--//also from flight table info, I use the airport_id of the destination airport to get the destination city.
