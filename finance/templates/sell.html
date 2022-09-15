@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell Stock
+{% endblock %}
+
+{% block header %}
+    {% if shares %}
+    <header>
+        <div class="alert alert-primary mb-0 text-center" role="alert">
+            Successfully purchased {{ shares }} {{ name }} shares at {{ price | usd }} for total of {{ total | usd }}. Balance remaining: {{ cash | usd}}.
+        </div>
+    </header>
+    {% endif %}
+    {% if not stocks %}
+    <header>
+        <div class="alert alert-primary mb-0 text-center" role="alert">
+            No stocks to sell. Buy stocks!!
+        </div>
+    </header>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    {% if stocks %}
+    <form action="/sell" method="post">
+        <div class="mb-3">
+            <label for="stocks">Choose a stock: </label>
+            <select name="symbol" id="stocks">
+                {% for stock in stocks %}
+                    <option value="{{ stock.symbol }}">{{ stock.symbol }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="shares" name="shares" placeholder="No of shares" type="number">
+        </div>
+        <button class="btn btn-primary" type="submit">Sell stocks</button>
+    </form>
+    {% endif %}
+{% endblock %}

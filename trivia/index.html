@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                <h3>Which of these is a popular shonen sports anime?</h3>
+                <p id="feedback1"></p>
+                <button>Naruto</button>
+                <button>Kuroko no basket</button>
+                <button>Death Note</button>
+                <button>Gintama</button>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <h3>What country produces Anime and Manga?</h3>
+                <p id="feedback2"></p>
+                <form>
+                    <input autocomplete="off" id="single" placeholder="Answer" type="text">
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+        // TODO: Add code to check answers to questions
+        document.querySelectorAll("button").forEach(item=>{
+            item.addEventListener('click', (e)=>{
+                let btn = e.target
+                answer = btn.innerText.toLowerCase()
+                if(answer === 'kuroko no basket'){
+                    btn.classList.add('correct');
+                    document.querySelector("#feedback1").innerHTML = "Correct!!";
+                }else{
+                    btn.classList.add('wrong');
+                    document.querySelector("#feedback1").innerHTML = "Inorrect!!";
+                }
+            });
+        });
+
+
+        document.querySelector('form').addEventListener('submit', (e)=>{
+            let answer = document.querySelector('#single');
+            value = answer.value.toLowerCase()
+            if (value === "japan"){
+                answer.classList.add("correct");
+                document.querySelector("#feedback2").innerHTML = "Correct!!";
+            }else{
+                answer.classList.add("wrong");
+                document.querySelector("#feedback2").innerHTML = "Inorrect!!";
+            }
+            e.preventDefault();
+        });
+    </script>
+</html>

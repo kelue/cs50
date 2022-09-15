@@ -1,0 +1,59 @@
+a:hover{
+    color: var(--bs-gray);
+}
+
+.btn-outline-custom {
+    color: #a5c926;
+    border-color: #a5c926;
+  }
+
+.btn-outline-custom:hover {
+    color: #fff;
+    background-color: #a5c926;
+    border-color: #a5c926;
+  }
+
+.bg-dark{
+background-color: #a5c926 !important;
+}
+
+.nav-link{
+color: var(--bs-gray);
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active,
+.navbar-brand:hover{
+color: #a5c926;
+}
+
+.navbar-brand{
+    font-family: 'Varela Round', sans-serif;
+    font-size: 22px;
+    line-height: 32px;
+    font-weight: 400;
+    color: var(--bs-gray)
+}
+
+.card-img-top {
+    height: 15rem;
+}
+
+.footer-nav{
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px white solid;
+    padding-bottom: 1rem;
+    max-width: 95%;
+}
+
+.footer-nav-link{
+    color: var(--bs-gray);
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.footer-nav-link:hover{
+    color: white;
+}

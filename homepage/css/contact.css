@@ -1,0 +1,16 @@
+.btn-outline-light:hover, .text-dark{
+    color: #a5c926 !important;
+}
+
+.bg-gradient{
+    padding: 1.3rem;
+}
+
+.bi-custom{
+    font-size: 2rem;
+}
+
+.feature{
+    display: flex;
+    justify-content: center;
+}

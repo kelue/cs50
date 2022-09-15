@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy Stock
+{% endblock %}
+
+{% block header %}
+    {% if stock %}
+    <header>
+        <div class="alert alert-primary mb-0 text-center" role="alert">
+            Successfully purchased {{ shares }} {{ stock.name }} shares at {{ stock.price | usd }} for total of {{ total | usd }}. Balance remaining: {{ cash | usd}}
+        </div>
+    </header>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="Enter ticker" type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="shares" name="shares" placeholder="No of shares" type="numbers">
+        </div>
+        <button class="btn btn-primary" type="submit">Buy stocks</button>
+    </form>
+{% endblock %}
